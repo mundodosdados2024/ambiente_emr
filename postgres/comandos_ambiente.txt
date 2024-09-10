@@ -1,0 +1,15 @@
+Metastore
+
+CREATE DATABASE metastore_db OWNER admin;
+GRANT ALL PRIVILEGES ON DATABASE metastore_db TO admin;
+
+
+psql -U admin -d metastore_db
+
+\i /util/hive-schema-4.0.0.postgres.sql
+
+
+airflow
+
+CREATE DATABASE airflow OWNER admin;
+GRANT ALL PRIVILEGES ON DATABASE airflow TO admin;
