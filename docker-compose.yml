@@ -93,19 +93,28 @@ services:
     # restart: always
 
   emr-local:
-    image: diegodataengineer/emr-local:1.0.0
+    image: diegodataengineer/emr-local-prototipo
     container_name: emr-local
     hostname: emr-local
     ports:
-      - "2222:2222"
-    depends_on:
-      - namenode
-      #- metastore
+      - 8889:8888
+      - 4040:4040
+      - 4041:4041
+      - 4042:4042
+      - 4043:4043
+      - 8181:8080
+      - 7077:7077
+      - 2222:2222
+    env_file:
+      - ./spark/env/jupyter.env
     user: root
     volumes:
-      - ./spark/util:/util
+      - ./spark/util:/util/
+      - ./spark/work:/home/user
+      - ./spark/env:/env
       - ./interface:/interface
-    # restart: always
+      - ./hadoop/hdfs/namenode/name:/hadoop/dfs/name
+      - ./hadoop/hdfs/namenode/edits:/hadoop/dfs/edits
 
   namenode:
     image: diegodataengineer/namenode-v1.0.0
@@ -147,7 +156,7 @@ services:
           memory: 500m
 
   trino:
-    image: trino-doido
+    image: diegodataengineer/trino:1.0.0
     container_name: trino
     hostname: trino
     ports:
